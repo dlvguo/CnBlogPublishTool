@@ -14,24 +14,24 @@ namespace CnBlogPublishTool
         private static string _filePath;
         private static string _fileDir;
         private static string _fileContent;
-        private static byte[] _teaKey=new byte[]{21,52,33,78,52,45};
+        private static byte[] _teaKey = new byte[] { 21, 52, 33, 78, 52, 45 };
         private static string _configFilePath;
         private static BlogConnectionInfo _connInfo;
-        private static readonly Dictionary<string,string> ReplaceDic=new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> ReplaceDic = new Dictionary<string, string>();
         static void Main(string[] args)
         {
             _configFilePath = Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "dotnet-cnblog.config.json");
 
-            if (args.Length==1&&args[0] == "reset")
+            if (args.Length == 1 && args[0] == "reset")
             {
                 File.Delete(_configFilePath);
                 Console.WriteLine("重置配置成功！");
                 return;
             }
 
-            Console.Title = "晓晨-博客快捷上传图片工具";
+            Console.Title = "国哥-博客快捷上传图片工具";
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n\n\t\t\t欢迎使用晓晨-博客快捷上传图片工具，使用问题或者建议请联系QQ群4656606\n\n");
+            Console.WriteLine("\n\n\t\t\t欢迎使用国哥-博客快捷上传图片工具，使用问题或者建议请联系QQ512739421\n\n");
             //加载配置
             LoadConfig();
 
@@ -76,14 +76,14 @@ namespace CnBlogPublishTool
             Console.WriteLine("请输入密  码：");
             string pwd = Console.ReadLine();
 
-            _connInfo =new BlogConnectionInfo(
-                "https://www.cnblogs.com/"+blogid,
-                "https://rpc.cnblogs.com/metaweblog/"+blogid,
+            _connInfo = new BlogConnectionInfo(
+                "https://www.cnblogs.com/" + blogid,
+                "https://rpc.cnblogs.com/metaweblog/" + blogid,
                 blogid,
                 uname,
                 Convert.ToBase64String(TeaHelper.Encrypt(Encoding.UTF8.GetBytes(pwd), _teaKey)));
-            
-            File.WriteAllText(_configFilePath,JsonConvert.SerializeObject(_connInfo));
+
+            File.WriteAllText(_configFilePath, JsonConvert.SerializeObject(_connInfo));
 
             _connInfo.Password = pwd;
 
@@ -95,6 +95,7 @@ namespace CnBlogPublishTool
             try
             {
                 _filePath = args[0];
+                Console.WriteLine(_filePath);
                 if (!File.Exists(_filePath))
                 {
                     Console.WriteLine("指定的文件不存在！");
